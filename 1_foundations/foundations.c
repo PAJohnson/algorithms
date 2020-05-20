@@ -141,6 +141,26 @@ void mergeSort(int *array, int low, int high){
     }
 }
 
+int binarySearch(int * array, int length, int value){
+    //returns index of array[] that holds value if it exists,
+    //returns -1 otherwise
+    
+    //assume array sorted from low to high
+    int mid = length/2;
+    if(array[mid] == value){
+        return mid;
+    }
+    else if(length == 1){
+        //length is 1 and array[mid] != value, value not in array
+        return -1;
+    }
+    else if(array[mid] < value){
+        return binarySearch(array+mid,length-mid,value)+mid;
+    }
+    else{
+        return binarySearch(array,mid,value);
+    }
+}
 
 
 int main(){
@@ -170,6 +190,9 @@ int main(){
     for(int i = 0; i < 10; i++){
         printf("%d ",unsorted_2[i]);
     }
+    
+    printf("%d\r\n",binarySearch(unsorted,10,8));
+    printf("%d\r\n",binarySearch(unsorted,10,-12));
     
     return 0;
 }
