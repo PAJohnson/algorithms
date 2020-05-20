@@ -24,8 +24,8 @@ void insertionSort(int *array, int length){
     return;
 }
 
-void merge(int *array, int low, int mid, int high){
-    //function to merge two sorted arrays
+void mergeSentinels(int *array, int low, int mid, int high){
+    //function to merge two sorted arrays using sentinel values
     //first array is array[low..mid], second is array[mid+1..high]
     int i;
     int j;
@@ -68,6 +68,67 @@ void merge(int *array, int low, int mid, int high){
     free(left);
     free(right);
     
+}
+
+void merge(int *array, int low, int mid, int high){
+    //function to merge two sorted arrays using sentinel values
+    //first array is array[low..mid], second is array[mid+1..high]
+    int i;
+    int j;
+    int *left, *right;
+    int len1 = mid-low+1;
+    int len2 = high-mid;
+    
+    //make two new arrays
+    left = malloc((len1)*sizeof(int));
+    right = malloc((len2)*sizeof(int));
+    
+    //initialize two new arrays
+    for(i = 0; i < (len1); i++){
+        left[i] = array[low+i];
+    }
+    
+    for(i = 0; i < (len2); i++){
+        right[i] = array[mid+i+1];
+    }
+    
+    i = 0;
+    j = 0;
+    
+    //actual merging
+    int k;
+    for(k = low; k < high+1; k++){
+        //is either of the arrays completely copied?
+        if(i < len1 && j < len2){
+            if(left[i] <= right[j]){
+                array[k] = left[i];
+                i = i + 1;
+            }
+            else{
+                array[k] = right[j];
+                j = j + 1;
+            }
+        }
+        //if an array is exhausted, break out
+        else{
+            break;
+        }
+    }
+    //copy the rest of left[] into array[]
+    while(i < len1){
+        array[k] = left[i];
+        k += 1;
+        i += 1;
+    }
+    //copy the rest of right[] into array[]
+    while(j < len2){
+        array[k] = right[j];
+        k += 1;
+        i += 1;
+    }
+    
+    free(left);
+    free(right);
 }
 
 void mergeSort(int *array, int low, int high){
